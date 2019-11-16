@@ -8,7 +8,8 @@
     "client": "webpack-dev-server --devtool inline-source-map --hot --config webpack.client.config.js",
     "client:build": "webpack --config webpack.client.build.config.js",
     "stats": "webpack --profile --json --config webpack.client.build.config.js > stats.json",
-    "analyze": "webpack-bundle-analyzer stats.json"
+    "analyze": "webpack-bundle-analyzer stats.json",
+    "server": "nodemon --exec babel-node --watch src/server src/server/index.js"
   },
   "repository": {
     "type": "git",
@@ -21,12 +22,15 @@
   },
   "homepage": "https://github.com/anarinya/graphbook#readme",
   "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^1.19.4",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-helmet": "^5.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.7.2",
+    "@babel/node": "^7.7.0",
     "@babel/plugin-proposal-class-properties": "^7.7.0",
     "@babel/plugin-proposal-decorators": "^7.7.0",
     "@babel/plugin-proposal-export-namespace-from": "^7.5.2",
