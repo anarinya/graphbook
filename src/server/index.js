@@ -4,8 +4,23 @@ import helmet from 'helmet'
 import cors from 'cors'
 import compress from 'compression'
 
+import services from './services'
+
 const app = express()
 const root = path.join(__dirname, '../../')
+const serviceNames = Object.keys(services);
+
+// Bind GraphQL server to Express
+for (let i = 0; i < serviceNames.length; i++) {
+  const name = serviceNames[i];
+  // Bind services to routes, other than graphql, since Apollo does this by default
+  if (name === 'graphql') {
+    services[name].applyMiddleware({ app })
+  } 
+  else {
+    app.use(`/${name}`, services[name])
+  }
+}
 
 // Setup Helmet to prevent XSS
 app.use(helmet())
