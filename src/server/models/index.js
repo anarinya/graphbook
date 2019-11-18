@@ -1,8 +1,6 @@
 import Sequelize from 'sequelize'
 
-if (process.env.NODE_ENV === 'development') {
-  // Obtain access to context hook in dev env
-  // Note: Production build of webpack already provides this
+if (process.env.NODE_ENV !== 'production') {
   require('babel-plugin-require-context-hook/register')()
 }
 
