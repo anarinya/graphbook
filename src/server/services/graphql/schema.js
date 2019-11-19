@@ -25,7 +25,7 @@ const typeDefinitions = `
   }
 
   type RootMutation {
-    addPost(post: PostInput! user: UserInput!): Post
+    addPost(post: PostInput!): Post
   }
 
   schema {
