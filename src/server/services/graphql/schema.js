@@ -1,5 +1,6 @@
 const typeDefinitions = `
 type User {
+  id: Int
   avatar: String
   username: String
 }
@@ -32,15 +33,31 @@ type User {
     avatar: String!
   }
 
+  input ChatInput {
+    users: [Int]
+  }
+
+  input MessageInput {
+    text: String!
+    chatId: Int!
+  }
+
   type RootQuery {
     # All available posts.
     posts: [Post]
+    # A single chat.
+    chat(chatId: Int): Chat
     # All available chats.
     chats: [Chat]
   }
 
   type RootMutation {
+    # Add a new post
     addPost(post: PostInput!): Post
+    # Add a new chat
+    addChat(chat: ChatInput!): Chat
+    # Add a new message
+    addMessage(message: MessageInput!): Message
   }
 
   schema {
