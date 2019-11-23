@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { Helmet } from 'react-helmet'
 import '../../assets/css/style.css'
 
+import Feed from './components/Feed'
+
 const posts = [{
   id: 2,
   text: 'Lorem Ipsum',
@@ -49,33 +51,11 @@ export default class App extends Component {
     const { posts, postContent } = this.state;
     return (
       <div className="container">
-
         <Helmet>
           <title>Graphbook - Feed</title>
           <meta name="description" content="Newsfeed of all your friends on Graphbook" />
         </Helmet>
-
-        <div className="postForm">
-          <form onSubmit={this.handleSubmit}>
-            <textarea value={postContent} onChange={this.handlePostContentChange} 
-              placeholder="Write your custom post!"
-            />
-            <input type="submit" value="Submit" />
-          </form>
-        </div>
-        <div className="feed">
-          {posts.map((post, index) =>
-            <div key={post.id} className="post">
-              <div className="header">
-                <img src={post.user.avatar} />
-                <h2>{post.user.username}</h2>
-              </div>
-              <p className="content">
-                {post.text}
-              </p>
-            </div>
-            )}
-        </div>
+        <Feed />
       </div>
     )
   }

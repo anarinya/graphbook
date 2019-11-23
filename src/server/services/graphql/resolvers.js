@@ -33,21 +33,24 @@ export default function resolver() {
         })
       },
       chats(root, args, context) {
-        return User.findAll().then((users) => {
-          if (!users.length) {
-            return []
-          }
-          const usersRow = users[0]
-          return Chat.findAll({
-            include: [{
-              model: User,
-              required: true,
-              through: { where: { userId: usersRow.id }}
-            }, {
-              model: Message
-            }]
+        return User
+          .findAll()
+          .then((users) => {
+            if (!users.length) {
+              return []
+            }
+            const usersRow = users[0]
+            return Chat
+              .findAll({
+                include: [{
+                  model: User,
+                  required: true,
+                  through: { where: { userId: usersRow.id }}
+                }, {
+                  model: Message
+                }]
+              })
           })
-        })
       }
     },
     RootMutation: {
@@ -57,19 +60,21 @@ export default function resolver() {
           message: 'Post was created.'
         })
 
-        return User.findAll().then((users) => {
-          const usersRow = users[0]
+        return User
+          .findAll()
+          .then((users) => {
+            const usersRow = users[0]
 
-          return Post.create({ 
-            ...post 
-          }).then((newPost) => {
-              return Promise.all([
-                newPost.setUser(usersRow.id)
-              ])
-            }).then(() => {
-              return newPost
-            })
-        })
+            return Post
+              .create({ ...post })
+              .then((newPost) => {
+                return Promise
+                  .all([newPost.setUser(usersRow.id)])
+                  .then(() => {
+                    return newPost
+                  })
+              })
+          })
       }, 
       addChat(root, { chat }, context) {
         logger.log({
@@ -77,13 +82,15 @@ export default function resolver() {
           message: 'Message was created.'
         })
 
-        return Chat.create().then((newChat) => {
-          return Promise.all([
-            newChat.setUsers(chat.users)
-          ]).then(() => {
-            return newChat
+        return Chat
+          .create()
+          .then((newChat) => {
+            return Promise
+              .all([newChat.setUsers(chat.users)])
+              .then(() => {
+                return newChat
+              })
           })
-        })
       },
       addMessage(root, { message }, context) {
         logger.log({
@@ -91,20 +98,23 @@ export default function resolver() {
           message: 'Message was created.'
         })
 
-        return User.findAll().then((users) => {
-          const usersRow = users[0]
-
-          return Message.create({
-            ...message
-          }).then((newMessage) => {
-            return Promise.all([
-              newMessage.setUser(usersRow.id),
-              newMessage.setChat(message.chatId)
-            ]).then(() => {
-              return newMessage
-            })
+        return User
+          .findAll()
+          .then((users) => {
+            const usersRow = users[0]
+            return Message
+              .create({ ...message })
+              .then((newMessage) => {
+                return Promise
+                  .all([
+                    newMessage.setUser(usersRow.id),
+                    newMessage.setChat(message.chatId)
+                  ])
+                  .then(() => {
+                    return newMessage
+                  })
+              })
           })
-        })
       }
     }
   }
